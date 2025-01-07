@@ -21,7 +21,7 @@ ChatBot::ChatBot()
 ChatBot::ChatBot(std::string filename)
 {
     std::cout << "ChatBot Constructor" << std::endl;
-    
+
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -35,18 +35,15 @@ ChatBot::~ChatBot()
     std::cout << "ChatBot Destructor" << std::endl;
 
     // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
         delete _image;
         _image = NULL;
     }
 }
 
-//// STUDENT CODE
-////
-
-//Copy Constructor
-ChatBot::ChatBot(const ChatBot& other)
+// Copy Constructor
+ChatBot::ChatBot(const ChatBot &other)
 {
     std::cout << "ChatBot Copy Constructor" << std::endl;
 
@@ -55,11 +52,10 @@ ChatBot::ChatBot(const ChatBot& other)
     _currentNode = other._currentNode;
     _image = new wxBitmap(*other._image);
     _chatLogic->SetChatbotHandle(this);
-
 }
 
-//Move Constructor
-ChatBot::ChatBot(ChatBot&& other)
+// Move Constructor
+ChatBot::ChatBot(ChatBot &&other)
 {
     std::cout << "ChatBot Move Constructor" << std::endl;
 
@@ -78,13 +74,13 @@ ChatBot::ChatBot(ChatBot&& other)
     _chatLogic->SetChatbotHandle(this);
 }
 
-//Copy Assignment Operator
-ChatBot &ChatBot::operator=(const ChatBot& other)
+// Copy Assignment Operator
+ChatBot &ChatBot::operator=(const ChatBot &other)
 {
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
-    if(this == &other)
+    if (this == &other)
         return *this;
-    
+
     _chatLogic = other._chatLogic;
     _currentNode = other._currentNode;
     _rootNode = other._rootNode;
@@ -93,12 +89,11 @@ ChatBot &ChatBot::operator=(const ChatBot& other)
     return *this;
 }
 
-
-//Move Assignment Operator
-ChatBot &ChatBot::operator=(ChatBot&& other)
+// Move Assignment Operator
+ChatBot &ChatBot::operator=(ChatBot &&other)
 {
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
-    if(this == &other)
+    if (this == &other)
         return *this;
 
     _chatLogic = other._chatLogic;
@@ -117,9 +112,6 @@ ChatBot &ChatBot::operator=(ChatBot&& other)
 
     return *this;
 }
-
-////
-//// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
@@ -142,7 +134,8 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
     if (levDists.size() > 0)
     {
         // sort in ascending order of Levenshtein distance (best fit is at the top)
-        std::sort(levDists.begin(), levDists.end(), [](const EdgeDist &a, const EdgeDist &b) { return a.second < b.second; });
+        std::sort(levDists.begin(), levDists.end(), [](const EdgeDist &a, const EdgeDist &b)
+                  { return a.second < b.second; });
         newNode = levDists.at(0).first->GetChildNode(); // after sorting the best edge is at first position
     }
     else
